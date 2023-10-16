@@ -12,6 +12,7 @@
 #include "stdio.h"
 #include <Driv_log.h>
 #include "math.h"
+#include<IMU_cale.h>
 uint16_t Kp;
 uint16_t  Ki;
 uint16_t  Kd ;
@@ -37,7 +38,8 @@ inline float Line_Motor(){
     sensval_D = (sensvalBuf - sensval)/T;
     sensvalBuf = sensval;
 
-	return ((sensval* (float)Kp*0.001)+(sensval_I*(float)Ki*0.0001)-(sensval_D*(float)Kd*0.0001));
+	//return ((sensval* (float)Kp*0.001)+(sensval_I*(float)Ki*0.0001)-(sensval_D*(float)Kd*0.0001));
+	return ((sensval* 1000)+(sensval_I*(float)Ki*0.0001)-(sensval_D*(float)Kd*0.0000))*(ang*10);
 
 
 }
@@ -114,7 +116,7 @@ inline void Speed_Motor(){
 	if(speedval_I >= 100000) speedval_I = 100000;
 	if(speedval_I <= (-100000)) speedval_I = (-100000);
 
-	val_v = (speedval* sKp)+((float)speedval_I*sKi);
+	//val_v = (speedval* sKp)+((float)speedval_I*sKi);
 	val_k  = Line_Motor();
 //	if(val_v >= 1400 && val_k >= 2000) val_v =1400;
 //	if(val_v <= -1400 && val_k <= -2000) val_v = -1400;

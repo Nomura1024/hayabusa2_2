@@ -27,6 +27,7 @@ uint8_t maker_right;
 uint8_t maker_left;
 uint8_t maker_flag=0;
 uint8_t cross_flag=0;
+float tread = 100;
 void MX_TIM6_Init(void);
 void init(){
 	if(HAL_ADC_Start_DMA(&hadc1, (uint32_t *) analog, SENSOR_NUMBER) != HAL_OK){

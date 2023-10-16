@@ -14,6 +14,7 @@
 #include "initial.h"
 #include "infor.h"
 
+
 uint16_t ADC_Small[SENSOR_NUMBER];
 uint16_t ADC_dif[SENSOR_NUMBER];
 uint8_t cross_line=0;
@@ -66,6 +67,7 @@ void ADCinit(){
 inline float senseGet(){
 	float sensL=0;
 	float sensR=0;
+	float sensval=0;
 	uint32_t sens[SENSOR_NUMBER];
 	float sensRatio[SENSOR_NUMBER];
 	static float sens_buff[SENSOR_NUMBER];
@@ -81,6 +83,7 @@ inline float senseGet(){
 //			sens[i] = ADC_Small[i] ;
 //		}
 //	}
+	sensval=0;
 	for(int i=0; i<SENSOR_NUMBER; i++){
 		sens[i] = analog[i];
 		if(sens[i] >=  (ADC_Small[i]+ADC_dif[i])){
@@ -93,6 +96,7 @@ inline float senseGet(){
 		sensRatio[i] = (1000.0f/(float)ADC_dif[i])*((float)(sens[i]-(float)ADC_Small[i]));
 //		sensRatio[i] = (sensRatio_buff[i]+sensRatio[i])/2;
 //		sensRatio_buff[i]=sensRatio[i];
+		sensval = sensval+sensRatio[i];
 		if(sensRatio[i] >= 600) black++;
 //		if(i<=5)sensL += sensRatio[i];
 //		if(i>=7)sensR += sensRatio[i];
@@ -131,7 +135,7 @@ inline float senseGet(){
 	//if ((sensRatio[6])>=700) error_count++;
 //	else if ((sensRatio[6])<=700)error_count=0;
 	if(error_count>110)error();
-	return sensL-sensR;
+	return (sensL-sensR)/sensval;
 	//return sensRatio[6];
 
 }

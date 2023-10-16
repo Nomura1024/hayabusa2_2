@@ -33,7 +33,7 @@ Core/Src/PID_con.o: ../Core/Src/PID_con.c ../Core/Inc/PID_con.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/sensor_ADC.h ../Core/Inc/initial.h ../Core/Inc/main.h \
- ../Core/Inc/infor.h ../Core/Inc/Driv_log.h
+ ../Core/Inc/infor.h ../Core/Inc/Driv_log.h ../Core/Inc/IMU_cale.h
 
 ../Core/Inc/PID_con.h:
 
@@ -114,3 +114,5 @@ Core/Src/PID_con.o: ../Core/Src/PID_con.c ../Core/Inc/PID_con.h \
 ../Core/Inc/infor.h:
 
 ../Core/Inc/Driv_log.h:
+
+../Core/Inc/IMU_cale.h:

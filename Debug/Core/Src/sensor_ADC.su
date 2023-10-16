@@ -1,2 +1,2 @@
-sensor_ADC.c:22:6:ADCinit	56	static
-sensor_ADC.c:66:14:senseGet	136	static
+sensor_ADC.c:23:6:ADCinit	56	static
+sensor_ADC.c:67:14:senseGet	144	static

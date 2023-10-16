@@ -125,10 +125,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	ghq++;
 	Speed_Motor();
 	sidemaker();
-	  if(maker_flag==0 && second_soeed>=1 && (Average_speed<=6000)){
-		  Average_speed=Average_speed+5;
-		  //spp=Average_speed;
-	  }
+	calc_angle();
+//	  if(maker_flag==0 && second_soeed>=1 && (Average_speed<=6000)){
+//		  Average_speed=Average_speed+5;
+//		  //spp=Average_speed;
+//	  }
 	//if(driv_flag==1&& maker_flag==1)first_cale();
 //	if(straight_flag) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
 //	else if(driv_flag ==1) HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_RESET);

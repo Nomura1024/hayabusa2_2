@@ -20,7 +20,7 @@ extern  uint16_t work_ram[BACKUP_FLASH_SECTOR_SIZE] __attribute__ ((aligned(4)))
  char _backup_flash_start;
 float ang_average=0;
 
- float ang;
+float ang;
 void off_angle(){
 	float average;
 	int i;
@@ -55,7 +55,8 @@ inline float calc_angle(){
 	//if(driv_flag==2)omega_z= ((R_IMU2)*(omega_z) + (1.0 - (R_IMU2))* (pre_zg));
 	omega_z= ((R_IMU)*(omega_z) + (1.0 - (R_IMU))* (pre_zg)); // lowpath filter
 	pre_zg =  omega_z;
-
+	//ang = ang+(omega_z*T);
+	ang = omega_z;
 	return omega_z;
 }
 
