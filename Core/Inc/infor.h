@@ -54,4 +54,6 @@ extern uint8_t goal;
 extern uint8_t second_soeed;
 extern uint8_t cross_maker;
 extern float speedget;
+extern uint32_t log_count_buff;
+extern uint32_t log_count;
 #endif /* INC_INFOR_H_ */

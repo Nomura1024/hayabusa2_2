@@ -34,6 +34,7 @@ float secondsp[6100] = {0};
 float second_load[6100] = {0};
 uint8_t correc_maker = 0;
 uint32_t log_count=0;
+uint32_t log_count_buff;
 int count_num=0;
 uint8_t second_soeed=0;
 uint16_t correction[200]= {0};
@@ -104,7 +105,7 @@ inline void first_cale(){
 	//if(coi>=30)HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
 	if(correc_maker==1 && straight_flag==1 ){
 //	if(correc_maker==1){
-		FLASH_Write_Word_S(side_adress,log_count);
+		FLASH_Write_Word_S(side_adress,log_count_buff);
 		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);
@@ -123,7 +124,7 @@ inline void first_cale(){
 		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);
-		work_ram[d] = log_count;
+		work_ram[d] = log_count_buff;
 		cross_maker = false;
 		d++;
 	}
@@ -159,7 +160,7 @@ inline void first_driv(float log){
 		}
 }
 int logsecond_Speed(double h){
-	int spee=1300;
+	int spee=2500;
 	float ratio=0;
 	if(h<0)h=-h;
 	switch(second_soeed){
@@ -491,10 +492,10 @@ inline void second_driv(float log){
 		if(logbuff > second_load[i+1]) i++;
 
 		coi++;
-		if(secondsp[i]<1500 && count_num > i && maker_flag==1)secondsp[i]=1500;
+		if(secondsp[i]<2500 && count_num > i && maker_flag==1)secondsp[i]=2500;
 		if(count_num-100 < i || i <= 100){
 			goal=1;
-			if(secondsp[i]<1500)secondsp[i]=1500;
+			if(secondsp[i]<2500)secondsp[i]=2500;
 		}
 		else goal=0;
 

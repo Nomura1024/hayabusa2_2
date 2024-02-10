@@ -144,6 +144,8 @@ void mode(){
 	int a=0;
 	float cal=0;
 	float spp=0;
+	uint8_t cheack=0;
+	uint8_t che=0;
 	while(1){
 		i=mode_Selection(switch_cheack());
 
@@ -201,24 +203,51 @@ void mode(){
 			while (1){
 
 			  if(maker_right && cross_line==0 && maker_left == 0 ){
+				  cheack = log_count;
 				  while(maker_right);
 				  maker_flag++;
+				  log_count_buff= log_count;
+				  while(log_count-cheack <=5){
+					  if( maker_left ){
+						  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
+						  maker_flag--;
+						  cross_maker = true;
+						  break;
+					  }
+				  }
+
 				  if(maker_flag>=2){
 					  break;
 				  }
 			  }
+
 			  if(maker_left && cross_line==0 && maker_right == 0){
-				  correc_maker = true;
+				  cheack = log_count;
 				  while(maker_left);
-				  correc_maker = false;
+				  che=true;
+				  log_count_buff= log_count;
+				  while(log_count-cheack <=5){
+
+					  if( maker_right ){
+						  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
+						 che=false;
+						 cross_maker = true;
+						  break;
+					  }
+				  }
+				  if(che){
+					  correc_maker = true;
+					  che=false;
+				  }
 			  }
 			  if((maker_left || maker_right )&& cross_line==1 ){
 				  while(maker_left || maker_right);
+				  log_count_buff= log_count;
 				  cross_maker = true;
 			  }
 
-			}
 
+			}
 			stop();
 			fan_pressure(0,0);
 			Flash_store();
@@ -301,24 +330,48 @@ void mode(){
 			HAL_TIM_Base_Start_IT(&htim6);
 			while (1){
 
-			  if(maker_right && cross_line==0 && maker_left == 0 ){
-				  while(maker_right);
-				  maker_flag++;
-				  if(maker_flag>=2){
-					  break;
+				  if(maker_right && cross_line==0 && maker_left == 0 ){
+					  cheack = log_count;
+					  while(maker_right);
+					  maker_flag++;
+					  log_count_buff= cheack;
+					  while(log_count-cheack <=5){
+						  if( maker_left ){
+							  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
+							  maker_flag--;
+							  cross_maker = true;
+							  break;
+						  }
+					  }
+
+					  if(maker_flag>=2){
+						  break;
+					  }
 				  }
-			  }
-			  if(maker_left && cross_line==0 && maker_right==0){
-					  correc_maker = true;
+
+				  if(maker_left && cross_line==0 && maker_right == 0){
+					  cheack = log_count;
 					  while(maker_left);
-					  correc_maker = false;
+					  log_count_buff= cheack;
+					  che=true;
+					  while(log_count-cheack <=5){
 
+						  if( maker_right ){
+							  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
+							 che=false;
+							 cross_maker = true;
+							  break;
+						  }
+					  }
+					  if(che){
+						  correc_maker = true;
+						  che = false;
+					  }
 				  }
-			  if((maker_left || maker_right )&& cross_line==1 ){
-				  while(maker_left || maker_right);
-				  cross_maker = true;
-			  }
-
+				  if((maker_left || maker_right )&& cross_line==1 ){
+					  while(maker_left || maker_right);
+					  cross_maker = true;
+				  }
 			 // if(Average_speed<work_ram[26])Average_speed=work_ram[26];
 			}
 
@@ -414,7 +467,7 @@ if(switch_cheack2()==0){
 //  second_soeed = 2;
 //  log_Cal();
 Motor(00,00);
- 	 mode();
+ //	 mode();
 //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9, GPIO_PIN_SET);
  // __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, 400);
@@ -427,7 +480,7 @@ LED2(4);
 	//IMU_init();
 	//off_angle();
   //printf("hello\r\n");
-  //log_init ();
+  log_init ();
 //  log_play();
   //HAL_TIM_Base_Start_IT(&htim6);
   /* USER CODE END 2 */
@@ -459,6 +512,7 @@ LED2(4);
   while (1)
   {
 	  read_gyro_data();
+	  senseGet();
 //	  a++;
 //	  if(a>=8)a=0;
 //	  LED(a);
@@ -470,13 +524,14 @@ LED2(4);
 //	  HAL_Delay(3000);
 //	ghq = *(uint32_t*)plan_velo_adress;
 //	cal = *(float*)plan_velo_adress;
+	if(isnan(test) != 0)break;
+	cal = *(uint32_t*)side_adress;
+	test = *(float*)side_adress;
 //	if(isnan(cal) != 0)break;
-//	//ghq = *(uint32_t*)side_adress;
-////	cal = *(float*)side_adress;
-////	if(isnan(cal) != 0)break;
+	side_adress+= 0x04;
 //	//c++;
 //	//printf("%d,",c);
-//	printf("%d\r\n",zg);
+	printf("%d\r\n",cal);
 //	plan_velo_adress+= 0x04;
 //
 //	HAL_Delay(1000);

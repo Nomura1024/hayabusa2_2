@@ -17,6 +17,7 @@
 uint16_t ADC_Small[SENSOR_NUMBER];
 uint16_t ADC_dif[SENSOR_NUMBER];
 uint8_t cross_line=0;
+ float ccorse_senR=0, ccorse_senL=0,ccorse_senRR=0, ccorse_senLL=0;
 
 extern uint16_t work_ram[BACKUP_FLASH_SECTOR_SIZE] __attribute__ ((aligned(4)));
 void ADCinit(){
@@ -66,6 +67,8 @@ void ADCinit(){
 inline float senseGet(){
 	float sensL=0;
 	float sensR=0;
+	static float corse_senR=0, corse_senL=0,corse_senRR=0, corse_senLL=0;
+	//float ccorse_senR=0, ccorse_senL=0,ccorse_senRR=0, ccorse_senLL=0;
 	uint32_t sens[SENSOR_NUMBER];
 	float sensRatio[SENSOR_NUMBER];
 	static float sens_buff[SENSOR_NUMBER];
@@ -106,13 +109,23 @@ inline float senseGet(){
 //	for(int i=7;i<=12;i++){
 //		sensR += sensRatio[i];
 //	}
+//	ccorse_senRR = (corse_senRR + sensRatio[0])/2;
+//	ccorse_senR = (corse_senR + sensRatio[1])/2;
+//	ccorse_senLL = (corse_senLL + sensRatio[12])/2;
+//	ccorse_senL = (corse_senL + sensRatio[11])/2;
 	//if ((sensL+sensR)/12<=400){
 //	if ((sensRatio[0]+sensRatio[12])/2<=500 /*|| (sensRatio[1]+sensRatio[11])/2 <= 650*/) {
-//	if ((sensRatio[0]<=800 && sensRatio[12]<=800) && (sensRatio[1]<=800 && sensRatio[11]<=800)) {
 	if ((sensRatio[0]<=500 || sensRatio[1]<=500) && (sensRatio[11]<=500 || sensRatio[12]<=500) && sensRatio[6]<=800) {
+
+	//if (((ccorse_senRR)<=300 || (ccorse_senR)<=300) && ((ccorse_senL)<=300 || (ccorse_senLL)<=300) && sensRatio[6]<=600 ) {
+
 		cross_line=true;
 		cross_flag=0;
 	}
+//	corse_senRR=sensRatio[0];
+//	corse_senR=sensRatio[1];
+//	corse_senLL=sensRatio[12];
+//	corse_senL=sensRatio[11];
 //	for(int i=0; i<SENSOR_NUMBER; i++){
 //		if(sensRatio[i] >= 600) black++;
 //	}

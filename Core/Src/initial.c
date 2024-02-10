@@ -181,6 +181,9 @@ void error(){
 	while(1){
 		Motor(0,0);
 		LED(1);
+		HAL_Delay(1000);
+		LED(8);
+		HAL_Delay(1000);
 	}
 }
 void stop(){
@@ -202,7 +205,7 @@ void stop(){
 	HAL_TIM_Base_Stop_IT(&htim6);
 	Motor(0,0);
 	LED(6);
-
+	HAL_Delay(1000);
 
 }
 void Motor(int16_t MotorL,int16_t MotorR)
